@@ -1,0 +1,29 @@
+; Engine configuration file.
+; Girdi eşlemeleri çalışma anında scripts/core/controls.gd içinde tanımlanır.
+
+config_version=5
+
+[application]
+
+config/name="Splatline"
+config/description="Takım tabanlı, üçüncü şahıs paintball oyunu."
+run/main_scene="res://scenes/main/arena.tscn"
+config/features=PackedStringArray("4.6", "Forward Plus")
+
+[display]
+
+window/size/viewport_width=1600
+window/size/viewport_height=900
+
+[layer_names]
+
+3d_physics/layer_1="world"
+3d_physics/layer_2="characters"
+
+[physics]
+
+common/physics_ticks_per_second=60
+
+[rendering]
+
+anti_aliasing/quality/msaa_3d=2

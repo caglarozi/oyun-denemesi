@@ -1,0 +1,226 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/main/arena.gd" id="1_arena"]
+[ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/props/training_dummy.tscn" id="3_dummy"]
+[ext_resource type="Script" path="res://scripts/ui/hud.gd" id="4_hud"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_sky"]
+sky_top_color = Color(0.22, 0.47, 0.88, 1)
+sky_horizon_color = Color(0.68, 0.79, 0.93, 1)
+ground_horizon_color = Color(0.68, 0.79, 0.93, 1)
+
+[sub_resource type="Sky" id="Sky_main"]
+sky_material = SubResource("ProceduralSkyMaterial_sky")
+
+[sub_resource type="Environment" id="Environment_main"]
+background_mode = 2
+sky = SubResource("Sky_main")
+ambient_light_source = 3
+tonemap_mode = 2
+ssao_enabled = true
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="Mat_turf"]
+albedo_color = Color(0.22, 0.46, 0.24, 1)
+roughness = 1.0
+
+[sub_resource type="StandardMaterial3D" id="Mat_bunker"]
+albedo_color = Color(0.93, 0.93, 0.9, 1)
+roughness = 0.7
+
+[sub_resource type="StandardMaterial3D" id="Mat_wall"]
+albedo_color = Color(0.32, 0.33, 0.38, 1)
+roughness = 0.9
+
+[sub_resource type="StandardMaterial3D" id="Mat_line"]
+albedo_color = Color(0.95, 0.95, 0.95, 1)
+roughness = 1.0
+
+[node name="Arena" type="Node3D"]
+script = ExtResource("1_arena")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_main")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+rotation = Vector3(-0.9, 0.55, 0)
+shadow_enabled = true
+
+[node name="Level" type="Node3D" parent="."]
+
+[node name="Floor" type="CSGBox3D" parent="Level"]
+position = Vector3(0, -0.5, 0)
+use_collision = true
+size = Vector3(30, 1, 50)
+material = SubResource("Mat_turf")
+
+[node name="WallNorth" type="CSGBox3D" parent="Level"]
+position = Vector3(0, 1.5, -25.25)
+use_collision = true
+size = Vector3(31, 3, 0.5)
+material = SubResource("Mat_wall")
+
+[node name="WallSouth" type="CSGBox3D" parent="Level"]
+position = Vector3(0, 1.5, 25.25)
+use_collision = true
+size = Vector3(31, 3, 0.5)
+material = SubResource("Mat_wall")
+
+[node name="WallEast" type="CSGBox3D" parent="Level"]
+position = Vector3(15.25, 1.5, 0)
+use_collision = true
+size = Vector3(0.5, 3, 50)
+material = SubResource("Mat_wall")
+
+[node name="WallWest" type="CSGBox3D" parent="Level"]
+position = Vector3(-15.25, 1.5, 0)
+use_collision = true
+size = Vector3(0.5, 3, 50)
+material = SubResource("Mat_wall")
+
+[node name="CenterLine" type="CSGBox3D" parent="Level"]
+position = Vector3(0, 0.005, 0)
+size = Vector3(30, 0.01, 0.15)
+material = SubResource("Mat_line")
+
+[node name="CenterTowerBlue" type="CSGCylinder3D" parent="Level"]
+position = Vector3(0, 1.3, 0)
+use_collision = true
+radius = 1.2
+height = 2.6
+sides = 16
+material = SubResource("Mat_bunker")
+
+[node name="BrickBlue" type="CSGBox3D" parent="Level"]
+position = Vector3(0, 0.5, 12)
+use_collision = true
+size = Vector3(3, 1, 1)
+material = SubResource("Mat_bunker")
+
+[node name="BrickOrange" type="CSGBox3D" parent="Level"]
+position = Vector3(0, 0.5, -12)
+use_collision = true
+size = Vector3(3, 1, 1)
+material = SubResource("Mat_bunker")
+
+[node name="CanBlue" type="CSGCylinder3D" parent="Level"]
+position = Vector3(-5, 0.8, 8)
+use_collision = true
+radius = 0.6
+height = 1.6
+sides = 16
+material = SubResource("Mat_bunker")
+
+[node name="CanOrange" type="CSGCylinder3D" parent="Level"]
+position = Vector3(5, 0.8, -8)
+use_collision = true
+radius = 0.6
+height = 1.6
+sides = 16
+material = SubResource("Mat_bunker")
+
+[node name="CanSideBlue" type="CSGCylinder3D" parent="Level"]
+position = Vector3(6, 0.8, 5)
+use_collision = true
+radius = 0.6
+height = 1.6
+sides = 16
+material = SubResource("Mat_bunker")
+
+[node name="CanSideOrange" type="CSGCylinder3D" parent="Level"]
+position = Vector3(-6, 0.8, -5)
+use_collision = true
+radius = 0.6
+height = 1.6
+sides = 16
+material = SubResource("Mat_bunker")
+
+[node name="TempleBlue" type="CSGBox3D" parent="Level"]
+position = Vector3(-9, 1.1, 3)
+use_collision = true
+size = Vector3(1.6, 2.2, 1.6)
+material = SubResource("Mat_bunker")
+
+[node name="TempleOrange" type="CSGBox3D" parent="Level"]
+position = Vector3(9, 1.1, -3)
+use_collision = true
+size = Vector3(1.6, 2.2, 1.6)
+material = SubResource("Mat_bunker")
+
+[node name="SnakeBlue" type="CSGBox3D" parent="Level"]
+position = Vector3(12, 0.45, 8)
+use_collision = true
+size = Vector3(1, 0.9, 10)
+material = SubResource("Mat_bunker")
+
+[node name="SnakeOrange" type="CSGBox3D" parent="Level"]
+position = Vector3(-12, 0.45, -8)
+use_collision = true
+size = Vector3(1, 0.9, 10)
+material = SubResource("Mat_bunker")
+
+[node name="HomeWallBlue" type="CSGBox3D" parent="Level"]
+position = Vector3(-4, 0.9, 19)
+use_collision = true
+size = Vector3(5, 1.8, 0.6)
+material = SubResource("Mat_bunker")
+
+[node name="HomeWallOrange" type="CSGBox3D" parent="Level"]
+position = Vector3(4, 0.9, -19)
+use_collision = true
+size = Vector3(5, 1.8, 0.6)
+material = SubResource("Mat_bunker")
+
+[node name="TallBoxBlue" type="CSGBox3D" parent="Level"]
+position = Vector3(8, 0.9, 15)
+use_collision = true
+size = Vector3(2, 1.8, 2)
+material = SubResource("Mat_bunker")
+
+[node name="TallBoxOrange" type="CSGBox3D" parent="Level"]
+position = Vector3(-8, 0.9, -15)
+use_collision = true
+size = Vector3(2, 1.8, 2)
+material = SubResource("Mat_bunker")
+
+[node name="Spawns" type="Node3D" parent="."]
+
+[node name="BlueSpawn" type="Marker3D" parent="Spawns"]
+position = Vector3(0, 0, 22)
+
+[node name="OrangeSpawn" type="Marker3D" parent="Spawns"]
+position = Vector3(0, 0, -22)
+rotation = Vector3(0, 3.14159, 0)
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector3(0, 0, 22)
+
+[node name="Dummies" type="Node3D" parent="."]
+
+[node name="Dummy1" parent="Dummies" instance=ExtResource("3_dummy")]
+position = Vector3(-3, 0, -8)
+rotation = Vector3(0, 3.14159, 0)
+
+[node name="Dummy2" parent="Dummies" instance=ExtResource("3_dummy")]
+position = Vector3(2, 0, -5)
+rotation = Vector3(0, 3.14159, 0)
+
+[node name="Dummy3" parent="Dummies" instance=ExtResource("3_dummy")]
+position = Vector3(7, 0, -12)
+rotation = Vector3(0, 3.14159, 0)
+
+[node name="Dummy4" parent="Dummies" instance=ExtResource("3_dummy")]
+position = Vector3(-9, 0, -11)
+rotation = Vector3(0, 3.14159, 0)
+
+[node name="Dummy5" parent="Dummies" instance=ExtResource("3_dummy")]
+position = Vector3(0, 0, -16)
+rotation = Vector3(0, 3.14159, 0)
+
+[node name="Dummy6" parent="Dummies" instance=ExtResource("3_dummy")]
+position = Vector3(10, 0, -6)
+rotation = Vector3(0, 3.14159, 0)
+
+[node name="HUD" type="CanvasLayer" parent="."]
+script = ExtResource("4_hud")

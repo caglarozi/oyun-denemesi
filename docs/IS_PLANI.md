@@ -1,7 +1,7 @@
 # Proje "SPLATLINE" — İş ve Geliştirme Planı
 
-> Çalışma adı: **Splatline** (değişebilir)
-> Tür: Takım tabanlı, taktiksel paintball nişancı oyunu (FPS)
+> Oyun adı: **Splatline**
+> Tür: Takım tabanlı, taktiksel paintball nişancı oyunu, **üçüncü şahıs (TPS)** kamerayla
 > Platform: PC (Steam), sonrasında web demo (itch.io)
 > Motor ve araçlar: Godot 4 · Meshy AI · Blender
 > Hazırlayan: Geliştirme stüdyosu (Claude) · Sunulan: Yatırımcı
@@ -10,7 +10,7 @@
 
 ## 1. Yönetici Özeti
 
-Splatline, oyuncuların boya tabancalarıyla 5v5 takım maçları yaptığı, haritanın vurulan her yerinde boya lekesi kaldığı, **botlarla tek başına** ya da **çevrimiçi arkadaşlarla** oynanabilen bir paintball oyunudur.
+Splatline, oyuncuların karakterlerini omuz üstünden gördüğü, boya tabancalarıyla 5v5 takım maçları yaptığı, haritanın vurulan her yerinde boya lekesi kaldığı, **botlarla tek başına** ya da **çevrimiçi arkadaşlarla** oynanabilen bir paintball oyunudur.
 
 **Neden şimdi, neden bu oyun?**
 - Splatoon türün popüler olduğunu kanıtladı, ancak yalnızca Nintendo konsollarında var. PC'de bunun karşılığı yok.
@@ -27,13 +27,23 @@ Splatline, oyuncuların boya tabancalarıyla 5v5 takım maçları yaptığı, ha
 ### Oyunun özü (30 saniyelik döngü)
 Siperden sipere koş → rakibi gör → yay çizen boya topunu at → vur veya vurul → takım arkadaşını kurtar veya bayrağı kap.
 
+### Kamera: üçüncü şahıs (TPS)
+Kamera karakterin sağ omzunun arkasında durur. Sağ tıkla nişan alınınca omza yaklaşır ve görüş alanı daralır.
+
+TPS'in bu oyuna katkısı:
+- Oyuncu kendi karakterini ve üstündeki boya izlerini görür. Bu, kozmetik satışının temelini oluşturur.
+- Siper alma ve siperden eğilip bakma daha rahat hissettirir.
+- Meshy ile üretilen karakter modelleri sürekli ekranda olduğu için görsel yatırımın karşılığı alınır.
+
+Mermiler namludan çıkar ama ekranın ortasındaki nişangâhın gösterdiği noktaya gider. Böylece kameranın omuz ofseti isabeti bozmaz.
+
 ### Temel mekanikler
 | Mekanik | Açıklama |
 |---|---|
 | Boya mermisi | Hitscan değil, fiziksel mermi. Yavaş gider, yay çizer, rüzgârdan etkilenmez. Paintball hissini bu verir. |
 | Boya lekeleri | Vurulan her yüzeyde takım renginde kalıcı leke (Godot `Decal`). Oyunun görsel imzası. |
 | Eleme | Gövdeye 1 isabet oyuncuyu eler; kol veya bacağa isabet oyuncuyu yavaşlatır. |
-| Siper | Şişme bariyerler, variller ve kasalar. Çömelme ve siperden eğilip bakma. |
+| Siper | Şişme bariyerler, variller ve kasalar. Eğilme; siperden eğilip bakma ve omuz değiştirme sonraki aşamada. |
 | Silahlar | 3 sınıf: Standart (dengeli), Pompalı (yakın mesafe, saçma), Keskin (uzak mesafe, yavaş). |
 
 ### Oyun modları (öncelik sırasıyla)
@@ -79,6 +89,7 @@ Parlak renkli ve stilize (Fortnite ile Splatoon arası). Bu seçimin iki faydas�
                           └──────────────┘              └──────────────────┘
 ```
 
+- **Motor sürümü:** Godot 4.6 (Forward+ görüntüleyici)
 - **Dil:** GDScript (hızlı geliştirme). Yalnızca performans gerektiren yerlerde C#.
 - **Ağ modeli:**
   - **Aşama 1:** Bir oyuncunun oyunu host ettiği model (listen server, Godot High-Level Multiplayer + ENet).
@@ -162,12 +173,32 @@ Steam %30 komisyon alır. $9.99 fiyat, bölgesel indirimler ve vergiler sonrası
 
 ---
 
-## 10. Yatırımcıdan Beklenen Kararlar
+## 10. Alınan Kararlar
 
-1. **Oyun adı:** "Splatline" uygun mu, alternatif ister misiniz?
-2. **Görsel stil:** Stilize ve parlak renkli (önerilen) mi, yarı gerçekçi mi?
-3. **Bütçe:** Asgari (~$600) mi, freelancer destekli (~$2.000) mi?
-4. **Online kapsamı:** Erken Erişim'de listen server + Steam lobileri yeterli mi? (Önerilen: evet)
-5. **Test düzeni:** Her aşama sonunda (yaklaşık 2–4 haftada bir) oyunu bilgisayarınızda deneyip geri bildirim verebilir misiniz?
+| Konu | Karar |
+|---|---|
+| Oyun adı | **Splatline** |
+| Kamera | **Üçüncü şahıs (TPS)**, omuz üstü (yatırımcı talebi) |
+| Proje sahipliği | Oyunun yönetimi ve teknik kararları stüdyoda (Claude). Yatırımcı yönü belirler ve oynayarak test eder. |
+| Görsel stil | Stilize ve parlak renkli |
+| Bütçe | Asgari senaryoyla başlanır; freelancer ihtiyacı 4. Aşama'da yeniden değerlendirilir. |
+| Çevrimiçi kapsam | Erken Erişim'de listen server ve Steam lobileri |
 
-Onayınızla **0. Aşama**'ya başlanır: Godot 4 proje iskeleti, klasör yapısı ve oynanabilir ilk karakter kontrolcüsü.
+## 11. İlerleme Günlüğü
+
+### 0. Aşama: Tamamlandı
+- Godot 4.6 proje iskeleti, klasör yapısı, `.gitignore`
+- GitHub Actions ile her push'ta ekransız duman testi (`tools/run_tests.sh`)
+
+### 1. Aşama: Başladı
+Hazır olanlar:
+- Üçüncü şahıs oyuncu: yürüme, depar, zıplama, eğilme, omuz kamerası, nişan alma (yakınlaşma)
+- Fiziksel boya mermisi (yay çizer) ve isabet sapması (hareket halinde ve havada artar)
+- Çalışma anında üretilen boya lekesi dokuları; lekeler duvarda, zeminde ve karakterlerde kalıyor
+- Nokta simetrik speedball arenası (gri kutu) ve devrilip kalkan 6 hedef kukla
+- HUD: nişangâh, isabet işareti, cephane, eleme sayacı
+
+Sıradakiler:
+- Boya sıçrama efekti (parçacık) ve ses efektleri
+- Siperden eğilip bakma ve omuz değiştirme
+- Yatırımcı oynanış testi: "10 dakika oynayınca bir tur daha deniyor mu?"
